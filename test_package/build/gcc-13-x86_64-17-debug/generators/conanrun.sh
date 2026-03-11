@@ -1,1 +1,0 @@
-. "/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/generators/conanrunenv-debug-x86_64.sh"

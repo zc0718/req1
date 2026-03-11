@@ -1,6 +1,0 @@
-Stress.Sleep 1 3.00371
-Stress.Network 1 0.00327956
-Title1.Tag1 1 0.00357223
-Title1.Tag2 1 0.00307096
-Title2.Tag1 1 0.00149102
----

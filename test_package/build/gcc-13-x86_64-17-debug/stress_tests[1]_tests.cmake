@@ -1,5 +1,0 @@
-add_test([=[Stress.Sleep]=]  /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/stress_tests [==[--gtest_filter=Stress.Sleep]==] --gtest_also_run_disabled_tests)
-set_tests_properties([=[Stress.Sleep]=]  PROPERTIES WORKING_DIRECTORY /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-add_test([=[Stress.Network]=]  /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/stress_tests [==[--gtest_filter=Stress.Network]==] --gtest_also_run_disabled_tests)
-set_tests_properties([=[Stress.Network]=]  PROPERTIES WORKING_DIRECTORY /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-set(  stress_tests_TESTS Stress.Sleep Stress.Network)

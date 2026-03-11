@@ -1,5 +1,0 @@
-if(EXISTS "/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/stress_tests[1]_tests.cmake")
-  include("/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/stress_tests[1]_tests.cmake")
-else()
-  add_test(stress_tests_NOT_BUILT stress_tests_NOT_BUILT)
-endif()
