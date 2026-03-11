@@ -1,0 +1,5 @@
+if(EXISTS "/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/unit_tests[1]_tests.cmake")
+  include("/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/unit_tests[1]_tests.cmake")
+else()
+  add_test(unit_tests_NOT_BUILT unit_tests_NOT_BUILT)
+endif()

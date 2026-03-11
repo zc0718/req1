@@ -1,0 +1,7 @@
+add_test([=[Title1.Tag1]=]  /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/unit_tests [==[--gtest_filter=Title1.Tag1]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[Title1.Tag1]=]  PROPERTIES WORKING_DIRECTORY /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[Title1.Tag2]=]  /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/unit_tests [==[--gtest_filter=Title1.Tag2]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[Title1.Tag2]=]  PROPERTIES WORKING_DIRECTORY /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[Title2.Tag1]=]  /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/unit_tests [==[--gtest_filter=Title2.Tag1]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[Title2.Tag1]=]  PROPERTIES WORKING_DIRECTORY /home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  unit_tests_TESTS Title1.Tag1 Title1.Tag2 Title2.Tag1)

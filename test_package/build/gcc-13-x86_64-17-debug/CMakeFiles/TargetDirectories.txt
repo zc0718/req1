@@ -1,0 +1,6 @@
+/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/CMakeFiles/main.dir
+/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/CMakeFiles/stress_tests.dir
+/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/CMakeFiles/unit_tests.dir
+/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/CMakeFiles/test.dir
+/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/CMakeFiles/edit_cache.dir
+/home/zc/Projects/others/req1/test_package/build/gcc-13-x86_64-17-debug/CMakeFiles/rebuild_cache.dir
