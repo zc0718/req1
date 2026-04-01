@@ -36,5 +36,5 @@ jobs:
         if: always() # 即使 Lint 失败（代码有问题），也尝试上传报告以便排查
         with:
           name: lint-reports
-          path: reports/ # MegaLinter 默认输出报告的文件夹
+          path: megalinter-reports/ # MegaLinter 默认输出报告的文件夹
           retention-days: 7 # 报告保留 7 天
