@@ -1,49 +1,109 @@
-name: Code Linting
+# name: Code Linting
+#
+# on:
+#   workflow_dispatch: # 仅允许手动触发
+#
+# jobs:
+#   lint:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       # 1. 检出代码
+#       # 注意：MegaLinter 可能需要比较完整的 Git 历史来对比文件，所以设置 fetch-depth: 0
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
+#
+#       # 2. 运行 MegaLinter
+#       # 使用官方 Docker 镜像，这是最稳定的方式，避免了 pip/npm 的环境依赖问题
+#       - name: Run MegaLinter
+#         uses: docker://oxsecurity/megalinter:v8
+#         continue-on-error: true
+#         env:
+#           # 如果需要生成报告文件，设置为 true
+#           REPORTER_JUNIT: "true"
+#           REPORTER_HTML: "true"
+#           # 同时也建议开启 SARIF，方便在 GitHub 界面直接看
+#           REPORTER_SARIF: "true"
+#           # 设置为 true 可以在日志中看到更详细的输出，方便调试
+#           LOG_LEVEL: "INFO"
+#         with:
+#           # 关键点：指定你的配置文件路径
+#           args: --config .mega-linter.yml
+#
+#       # 3. 上传报告（你的需求）
+#       # 只有当上面的步骤成功生成了 reports 文件夹，这个步骤才会执行
+#       - name: Upload Lint Report
+#         uses: actions/upload-artifact@v7
+#         if: always() # 即使 Lint 失败（代码有问题），也尝试上传报告以便排查
+#         with:
+#           name: lint-reports
+#           path: megalinter-reports/ # MegaLinter 默认输出报告的文件夹
+#           retention-days: 7 # 报告保留 7 天
+#
+#       - name: Upload SARIF to GitHub Security
+#         uses: github/codeql-action/upload-sarif@v3
+#         if: always()
+#         with:
+#           sarif_file: megalinter-reports/megalinter-report.sarif
 
+
+name: 🔍 Debug MegaLinter (Dry Run)
+
+# 手动触发为主，方便你随时点击运行看效果
 on:
-  workflow_dispatch: # 仅允许手动触发
+  workflow_dispatch:
+    description: "手动运行调试模式"
+  # 如果你也想在 push 到 debug 分支时自动跑，可以取消下面的注释
+  # push:
+  #   branches:
+  #     - debug-megalinter
 
 jobs:
-  lint:
+  debug-lint:
+    name: Debug MegaLinter
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 检出代码
-      # 注意：MegaLinter 可能需要比较完整的 Git 历史来对比文件，所以设置 fetch-depth: 0
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: 🛎️ Checkout Code
+        uses: actions/checkout@v6
         with:
+          # MegaLinter 有时需要完整的 git history 来计算 diff
+          # 但在调试全量扫描时，fetch-depth 可以设为 0 或 100
           fetch-depth: 0
 
-      # 2. 运行 MegaLinter
-      # 使用官方 Docker 镜像，这是最稳定的方式，避免了 pip/npm 的环境依赖问题
-      - name: Run MegaLinter
-        uses: docker://oxsecurity/megalinter:v8
-        continue-on-error: true
+      - name: 🐫 Run MegaLinter in Debug Mode
+        uses: oxsecurity/megalinter@v8
         env:
-          # 如果需要生成报告文件，设置为 true
-          REPORTER_JUNIT: "true"
+          # 1. 关键：开启调试日志
+          LOG_LEVEL: "DEBUG" # 输出最详细的日志，看它到底在干什么
+          
+          # 2. 关键：全量扫描（验证整个代码库，而不是仅本次提交的文件）
+          # 这能帮你发现代码库中现存的所有问题，而不是只报错新写的代码
+          VALIDATE_ALL_CODEBASE: "true"
+          
+          # 3. 关键：绝对不自动修复（安全第一）
+          # 即使配置里写了修复，这里也强制关闭，防止误操作
+          APPLY_FIXES: "none" 
+          
+          # 4. 开启所有报告格式，方便你下载分析
           REPORTER_HTML: "true"
-          # 同时也建议开启 SARIF，方便在 GitHub 界面直接看
+          REPORTER_JUNIT: "true"
           REPORTER_SARIF: "true"
-          # 设置为 true 可以在日志中看到更详细的输出，方便调试
-          LOG_LEVEL: "INFO"
-        with:
-          # 关键点：指定你的配置文件路径
-          args: --config .mega-linter.yml
+          REPORTER_CONSOLE: "true" # 确保在 Actions 的 Log 里也打印错误
 
-      # 3. 上传报告（你的需求）
-      # 只有当上面的步骤成功生成了 reports 文件夹，这个步骤才会执行
-      - name: Upload Lint Report
+          # 5. 你的自定义配置文件路径（如果根目录有 .mega-linter.yml，它会自动读取）
+          # 这里可以留空，或者根据需要覆盖某些变量
+          # DISABLE: "COPYPASTE" # 例如，如果你想先关掉查重功能，可以在这里加
+
+      # 上传报告作为 Artifact
+      # 运行结束后，你可以在 Actions 的页面下载这个 zip 文件
+      - name: 📥 Upload Debug Reports
         uses: actions/upload-artifact@v7
-        if: always() # 即使 Lint 失败（代码有问题），也尝试上传报告以便排查
+        if: always() # 即使 MegaLinter 发现了错误（导致上一步失败），也上传报告
         with:
-          name: lint-reports
-          path: megalinter-reports/ # MegaLinter 默认输出报告的文件夹
-          retention-days: 7 # 报告保留 7 天
-
-      - name: Upload SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: megalinter-reports/megalinter-report.sarif
+          name: debug-megalinter-reports
+          path: |
+            megalinter-reports
+            mega-linter.log # 有时候主日志里也有有用信息
