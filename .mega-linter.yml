@@ -1,31 +1,17 @@
-# # .mega-linter.yml
-#
-# # 1. 只开启你需要的检查，关闭杂项以提高速度
-# ENABLE: "C,CPP,CLANG_TIDY,CLANG_FORMAT,MARKDOWN,JSON,YAML"
-# DISABLE: "SPELL,REPOSITORY,DOXYGEN,SPHINX"  # 关闭你已集成的文档工具检查
-#
-# # 2. 配置 C/C++ 专项规则
-# C_CLANG_TIDY:
-#   ENABLE: true
-#   CONFIG_FILE: ".github/misc/.clang-tidy"  # 指定 clang-tidy 配置路径
-#
-# C_CLANG_FORMAT:
-#   ENABLE: true
-#   CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
-#
-# FILTER_REGEX_INCLUDE: "(include|src)/.*"
 # .mega-linter.yml
 
-ENABLE: "C,CPP,MARKDOWN,JSON,YAML,FLAWFINDER,SEMGREP"
+# 1. 只开启你需要的检查，关闭杂项以提高速度
+ENABLE: "C,CPP,CLANG_TIDY,CLANG_FORMAT,MARKDOWN,JSON,YAML"
+DISABLE: "SPELL,REPOSITORY,DOXYGEN,SPHINX"  # 关闭你已集成的文档工具检查
 
-# 2. 关闭不需要的检查
-DISABLE: "SPELL,REPOSITORY,DOXYGEN,SPHINX"
+# 2. 配置 C/C++ 专项规则
+C_CLANG_TIDY:
+  ENABLE: true
+  CONFIG_FILE: ".github/misc/.clang-tidy"  # 指定 clang-tidy 配置路径
 
-# --- 报告配置 (确保报告生成) ---
-REPORTER_HTML: "true"
-REPORT_OUTPUT_FOLDER: "megalinter-reports"
-REPORT_TYPES: "console,html,sarif"
+C_CLANG_FORMAT:
+  ENABLE: true
+  CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
 
-# --- 扫描范围 ---
-VALIDATE_ALL_CODEBASE: "true"
-APPLY_FIXES: "none"
+FILTER_REGEX_INCLUDE: "(include|src)/.*"
+

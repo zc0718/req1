@@ -48,55 +48,111 @@
 #         with:
 #           sarif_file: megalinter-reports/megalinter-report.sarif
 
-name: 🔍 Debug MegaLinter (Dry Run)
+# MegaLinter GitHub Action configuration file
+# More info at https://megalinter.io
+---
+name: MegaLinter
 
-on:
-  workflow_dispatch:
-    description: "手动运行调试模式"
-  # push:
-  #   branches:
-  #     - debug-megalinter
+# Trigger mega-linter at every push. Action will also be visible from Pull
+# Requests to main
+on: # yamllint disable-line rule:truthy - false positive
+  # Comment this line to trigger action only on pull-requests
+  # (not recommended if you don't pay for GH Actions)
+  push:
+
+  pull_request:
+    branches:
+      - main
+
+# Comment env block if you do not want to apply fixes
+env:
+  # Apply linter fixes configuration
+  #
+  # When active, APPLY_FIXES must also be defined as environment variable
+  # (in github/workflows/mega-linter.yml or other CI tool)
+  APPLY_FIXES: all
+
+  # Decide which event triggers application of fixes in a commit or a PR
+  # (pull_request, push, all)
+  APPLY_FIXES_EVENT: pull_request
+
+  # If APPLY_FIXES is used, defines if the fixes are directly committed (commit)
+  # or posted in a PR (pull_request)
+  APPLY_FIXES_MODE: commit
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions: {}
 
 jobs:
-  debug-lint:
-    name: Debug MegaLinter
+  megalinter:
+    name: MegaLinter
     runs-on: ubuntu-latest
 
+    # Give the default GITHUB_TOKEN write permission to commit and push, comment
+    # issues & post new PR; remove the ones you do not need
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
     steps:
-      - name: 🛎️ Checkout Code
+      # Git Checkout
+      - name: Checkout Code
         uses: actions/checkout@v6
         with:
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+
+          # If you use VALIDATE_ALL_CODEBASE = true, you can remove this line to
+          # improve performance
           fetch-depth: 0
 
-      - name: 🐫 Run MegaLinter in Debug Mode
+      # MegaLinter
+      - name: MegaLinter
+
+        # You can override MegaLinter flavor used to have faster performances
+        # More info at https://megalinter.io/latest/flavors/
         uses: oxsecurity/megalinter@v8
-        continue-on-error: true
+
+        id: ml
+
+        # All available variables are described in documentation
+        # https://megalinter.io/latest/configuration/
         env:
-          ## --- 核心调试与日志 ---
-          LOG_LEVEL: "DEBUG" 
-          VALIDATE_ALL_CODEBASE: "true" 
-          APPLY_FIXES: "none" 
+          # Validates all source when push on main, else just the git diff with
+          # main. Override with true if you always want to lint all sources
+          #
+          # To validate the entire codebase, set to:
+          # VALIDATE_ALL_CODEBASE: true
+          #
+          # To validate only diff with main, set to:
+          # VALIDATE_ALL_CODEBASE: >-
+          #   ${{
+          #     github.event_name == 'push' &&
+          #     contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref)
+          #   }}
+          VALIDATE_ALL_CODEBASE: >-
+            ${{
+              github.event_name == 'push' &&
+              contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref)
+            }}
 
-          ## --- 报告生成修复 (关键改动) ---
-          # 1. 显式告诉它去加载项目根目录的配置文件
-          # 这是防止配置失效的最直接方法
-          CONFIG_FILE: ".mega-linter.yml" 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # 2. 确保 HTML 报告生成器开启
-          REPORTER_HTML: "true" 
-          # 3. 强制创建报告，即使没有 linting 错误
-          CREATE_REPORT: "true" 
-          # 4. 明确报告输出路径
-          REPORT_OUTPUT_FOLDER: "megalinter-reports" 
+          # ADD YOUR CUSTOM ENV VARIABLES HERE OR DEFINE THEM IN A FILE
+          # .mega-linter.yml AT THE ROOT OF YOUR REPOSITORY
 
-          # 5. 保留你原来的报告类型定义
-          REPORT_TYPES: "console,sarif,html"
+          # Uncomment to disable copy-paste and spell checks
+          # DISABLE: COPYPASTE,SPELL
 
-      - name: 📥 Upload Debug Reports
+      # Upload MegaLinter artifacts
+      - name: Archive production artifacts
+        if: success() || failure()
         uses: actions/upload-artifact@v7
-        if: always()
         with:
-          name: debug-megalinter-reports
+          name: MegaLinter reports
           include-hidden-files: "true"
           path: |
             megalinter-reports
