@@ -12,7 +12,19 @@ ENABLE_LINTERS:
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
 COPYPASTE_JSCPD:
-  FILTER_REGEX_INCLUDE: "^(include/|src/)"
+  ARGUMENTS: --path . --include "include/**" --include "src/**"
+#
+# REPOSITORY_GITLEAKS:
+#   FILTER_REGEX_INCLUDE: "^(include/|src/)"
+#
+# REPOSITORY_SEMGREP:
+#   FILTER_REGEX_INCLUDE: "^(include/|src/)"
+#
+# REPOSITORY_CHECKOV:
+#   FILTER_REGEX_INCLUDE: "^(include/|src/)"
+#
+# REPOSITORY_DEVSKIM:
+  # FILTER_REGEX_INCLUDE: "^(include/|src/)"
 
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
