@@ -1,12 +1,19 @@
 # .mega-linter.yml
 
 # 1. 只开启你需要的检查，关闭杂项以提高速度
-ENABLE: "C,CPP"
-DISABLE: "SPELL,REPOSITORY,DOXYGEN,SPHINX"  # 关闭你已集成的文档工具检查
+ENABLE: "C,CPP,REPOSITORY,COPYPASTE"
+DISABLE: "SPELL"  # 关闭你已集成的文档工具检查
 
-DISABLE_ERRORS_LINTERS:
-  - C_CPPLINT      # 👈 添加这一行
-  - CPP_CPPLINT    # 👈 添加这一行
+ENABLE_LINTERS:
+  - COPYPASTE_JSCPD
+  - REPOSITORY_GITLEAKS       # 防止密钥泄露
+  - REPOSITORY_SEMGREP        # 代码逻辑漏洞扫描
+  - REPOSITORY_CHECKOV        # IaC (Terraform/Docker) 配置安全
+  - REPOSITORY_DEVSKIM        # 微软安全规则补充
+
+# DISABLE_ERRORS_LINTERS:
+#   - C_CPPLINT      # 👈 添加这一行
+#   - CPP_CPPLINT    # 👈 添加这一行
 
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
@@ -18,7 +25,6 @@ C_CLANG_FORMAT:
   CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
 
 FILTER_REGEX_INCLUDE: "(include|src)/.*"
-
 
 SARIF_REPORTER: true
 MARKDOWN_SUMMARY_REPORTER: true
