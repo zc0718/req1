@@ -13,5 +13,6 @@ C_CLANG_FORMAT:
   ENABLE: true
   CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
 
-
 FILTER_REGEX_INCLUDE: "(include|src)/.*"
+
+REPORT_OUTPUT_FOLDER: "reports"
