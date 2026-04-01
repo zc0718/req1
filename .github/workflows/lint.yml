@@ -104,6 +104,7 @@ jobs:
         if: always() # 即使 MegaLinter 发现了错误（导致上一步失败），也上传报告
         with:
           name: debug-megalinter-reports
+          include-hidden-files: "true"
           path: |
             megalinter-reports
-            mega-linter.log # 有时候主日志里也有有用信息
+            mega-linter.log
