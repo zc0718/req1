@@ -48,14 +48,11 @@
 #         with:
 #           sarif_file: megalinter-reports/megalinter-report.sarif
 
-
 name: 🔍 Debug MegaLinter (Dry Run)
 
-# 手动触发为主，方便你随时点击运行看效果
 on:
   workflow_dispatch:
     description: "手动运行调试模式"
-  # 如果你也想在 push 到 debug 分支时自动跑，可以取消下面的注释
   # push:
   #   branches:
   #     - debug-megalinter
@@ -69,42 +66,35 @@ jobs:
       - name: 🛎️ Checkout Code
         uses: actions/checkout@v6
         with:
-          # MegaLinter 有时需要完整的 git history 来计算 diff
-          # 但在调试全量扫描时，fetch-depth 可以设为 0 或 100
           fetch-depth: 0
 
       - name: 🐫 Run MegaLinter in Debug Mode
         uses: oxsecurity/megalinter@v8
         continue-on-error: true
         env:
-          # 1. 关键：开启调试日志
-          LOG_LEVEL: "DEBUG" # 输出最详细的日志，看它到底在干什么
-          
-          # 2. 关键：全量扫描（验证整个代码库，而不是仅本次提交的文件）
-          # 这能帮你发现代码库中现存的所有问题，而不是只报错新写的代码
-          VALIDATE_ALL_CODEBASE: "true"
-          
-          # 3. 关键：绝对不自动修复（安全第一）
-          # 即使配置里写了修复，这里也强制关闭，防止误操作
+          ## --- 核心调试与日志 ---
+          LOG_LEVEL: "DEBUG" 
+          VALIDATE_ALL_CODEBASE: "true" 
           APPLY_FIXES: "none" 
-          
-          # 4. 开启所有报告格式，方便你下载分析
-          REPORTER_HTML: "true"
-          REPORTER_JUNIT: "true"
-          REPORTER_SARIF: "true"
-          REPORTER_CONSOLE: "true" # 确保在 Actions 的 Log 里也打印错误
+
+          ## --- 报告生成修复 (关键改动) ---
+          # 1. 显式告诉它去加载项目根目录的配置文件
+          # 这是防止配置失效的最直接方法
+          CONFIG_FILE: ".mega-linter.yml" 
+
+          # 2. 确保 HTML 报告生成器开启
+          REPORTER_HTML: "true" 
+          # 3. 强制创建报告，即使没有 linting 错误
+          CREATE_REPORT: "true" 
+          # 4. 明确报告输出路径
+          REPORT_OUTPUT_FOLDER: "megalinter-reports" 
+
+          # 5. 保留你原来的报告类型定义
           REPORT_TYPES: "console,sarif,html"
-          CREATE_REPORT: "true"
 
-          # 5. 你的自定义配置文件路径（如果根目录有 .mega-linter.yml，它会自动读取）
-          # 这里可以留空，或者根据需要覆盖某些变量
-          # DISABLE: "COPYPASTE" # 例如，如果你想先关掉查重功能，可以在这里加
-
-      # 上传报告作为 Artifact
-      # 运行结束后，你可以在 Actions 的页面下载这个 zip 文件
       - name: 📥 Upload Debug Reports
         uses: actions/upload-artifact@v7
-        if: always() # 即使 MegaLinter 发现了错误（导致上一步失败），也上传报告
+        if: always()
         with:
           name: debug-megalinter-reports
           include-hidden-files: "true"

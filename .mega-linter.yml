@@ -15,4 +15,3 @@ C_CLANG_FORMAT:
 
 FILTER_REGEX_INCLUDE: "(include|src)/.*"
 
-REPORT_OUTPUT_FOLDER: "reports"
