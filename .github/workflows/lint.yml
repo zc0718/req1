@@ -18,7 +18,7 @@ jobs:
       # 2. 运行 MegaLinter
       # 使用官方 Docker 镜像，这是最稳定的方式，避免了 pip/npm 的环境依赖问题
       - name: Run MegaLinter
-        uses: docker://oxsecurity/megalinter:v6
+        uses: docker://oxsecurity/megalinter:v8
         continue-on-error: true
         env:
           # 如果需要生成报告文件，设置为 true
@@ -28,16 +28,22 @@ jobs:
           REPORTER_SARIF: "true"
           # 设置为 true 可以在日志中看到更详细的输出，方便调试
           LOG_LEVEL: "INFO"
-        # with:
-        #   # 关键点：指定你的配置文件路径
-        #   args: --config .github/misc/.mega-linter.yml
+        with:
+          # 关键点：指定你的配置文件路径
+          args: --config .mega-linter.yml
 
       # 3. 上传报告（你的需求）
       # 只有当上面的步骤成功生成了 reports 文件夹，这个步骤才会执行
       - name: Upload Lint Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() # 即使 Lint 失败（代码有问题），也尝试上传报告以便排查
         with:
           name: lint-reports
           path: megalinter-reports/ # MegaLinter 默认输出报告的文件夹
           retention-days: 7 # 报告保留 7 天
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: megalinter-reports/megalinter-report.sarif
