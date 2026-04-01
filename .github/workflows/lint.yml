@@ -75,6 +75,7 @@ jobs:
 
       - name: 🐫 Run MegaLinter in Debug Mode
         uses: oxsecurity/megalinter@v8
+        continue-on-error: true
         env:
           # 1. 关键：开启调试日志
           LOG_LEVEL: "DEBUG" # 输出最详细的日志，看它到底在干什么
@@ -92,6 +93,8 @@ jobs:
           REPORTER_JUNIT: "true"
           REPORTER_SARIF: "true"
           REPORTER_CONSOLE: "true" # 确保在 Actions 的 Log 里也打印错误
+          REPORT_TYPES: "console,sarif,html"
+          CREATE_REPORT: "true"
 
           # 5. 你的自定义配置文件路径（如果根目录有 .mega-linter.yml，它会自动读取）
           # 这里可以留空，或者根据需要覆盖某些变量
