@@ -147,14 +147,20 @@ jobs:
           # Uncomment to disable copy-paste and spell checks
           # DISABLE: COPYPASTE,SPELL
 
-      # Upload MegaLinter artifacts
-      - name: Archive production artifacts
+      # # Upload MegaLinter artifacts
+      # - name: Archive production artifacts
+      #   if: success() || failure()
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: MegaLinter reports
+      #     include-hidden-files: "true"
+      #     path: |
+      #       megalinter-reports
+      #       mega-linter.log
+
+      - name: Upload MegaLinter scan results to GitHub Security tab
         if: success() || failure()
-        uses: actions/upload-artifact@v7
+        uses: github/codeql-action/upload-sarif@v2
         with:
-          name: MegaLinter reports
-          include-hidden-files: "true"
-          path: |
-            megalinter-reports
-            mega-linter.log
+            sarif_file: 'megalinter-reports/megalinter-report.sarif'
 
