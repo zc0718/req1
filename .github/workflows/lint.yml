@@ -25,9 +25,9 @@ jobs:
           REPORTER_JUNIT: "true"
           # 设置为 true 可以在日志中看到更详细的输出，方便调试
           LOG_LEVEL: "INFO"
-        with:
-          # 关键点：指定你的配置文件路径
-          args: --config .github/misc/.mega-linter.yml
+        # with:
+        #   # 关键点：指定你的配置文件路径
+        #   args: --config .github/misc/.mega-linter.yml
 
       # 3. 上传报告（你的需求）
       # 只有当上面的步骤成功生成了 reports 文件夹，这个步骤才会执行
@@ -36,5 +36,5 @@ jobs:
         if: always() # 即使 Lint 失败（代码有问题），也尝试上传报告以便排查
         with:
           name: lint-reports
-          path: megalinter-reports/ # MegaLinter 默认输出报告的文件夹
+          path: reports/ # MegaLinter 默认输出报告的文件夹
           retention-days: 7 # 报告保留 7 天
