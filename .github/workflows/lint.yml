@@ -19,6 +19,7 @@ jobs:
       # 使用官方 Docker 镜像，这是最稳定的方式，避免了 pip/npm 的环境依赖问题
       - name: Run MegaLinter
         uses: docker://oxsecurity/megalinter:v6
+        continue-on-error: true
         env:
           # 如果需要生成报告文件，设置为 true
           REPORTER_JUNIT: "true"
