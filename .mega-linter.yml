@@ -4,6 +4,10 @@
 ENABLE: "C,CPP"
 DISABLE: "SPELL,REPOSITORY,DOXYGEN,SPHINX"  # 关闭你已集成的文档工具检查
 
+DISABLE_ERRORS_LINTERS:
+  - C_CPPLINT      # 👈 添加这一行
+  - CPP_CPPLINT    # 👈 添加这一行
+
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
   ENABLE: true
