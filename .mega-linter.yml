@@ -11,9 +11,8 @@ ENABLE_LINTERS:
   - REPOSITORY_CHECKOV        # IaC (Terraform/Docker) 配置安全
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
-# DISABLE_ERRORS_LINTERS:
-#   - C_CPPLINT      # 👈 添加这一行
-#   - CPP_CPPLINT    # 👈 添加这一行
+COPYPASTE_JSCPD:
+  FILTER_REGEX_INCLUDE: "^(include/|src/)"
 
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
