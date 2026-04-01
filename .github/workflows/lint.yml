@@ -3,7 +3,7 @@
 name: Code Linting
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 仅允许手动触发
 
 jobs:
   lint:
@@ -12,20 +12,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.12'
+          node-version: '20' # 或者其他你想要的 LTS 版本
 
       - name: Install MegaLinter
-        run: pip install mega-linter
+        run: npm install -g @oxsecurity/megalinter
 
       - name: Run MegaLinter
+        working-directory: .
         run: |
           megalinter-runner \
             --config .github/misc/.mega-linter.yml \
-            --output-folder reports \
-            --output-format sarif
+            --output-folder reports
 
       - name: Upload Lint Report
         uses: actions/upload-artifact@v4
