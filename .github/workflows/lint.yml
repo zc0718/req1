@@ -18,7 +18,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install MegaLinter
-        run: pip install megalinter
+        run: pip install mega-linter
 
       - name: Run MegaLinter
         run: |
