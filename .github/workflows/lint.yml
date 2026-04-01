@@ -23,6 +23,9 @@ jobs:
         env:
           # 如果需要生成报告文件，设置为 true
           REPORTER_JUNIT: "true"
+          REPORTER_HTML: "true"
+          # 同时也建议开启 SARIF，方便在 GitHub 界面直接看
+          REPORTER_SARIF: "true"
           # 设置为 true 可以在日志中看到更详细的输出，方便调试
           LOG_LEVEL: "INFO"
         # with:
@@ -36,5 +39,5 @@ jobs:
         if: always() # 即使 Lint 失败（代码有问题），也尝试上传报告以便排查
         with:
           name: lint-reports
-          path: reports/ # MegaLinter 默认输出报告的文件夹
+          path: megalinter-reports/ # MegaLinter 默认输出报告的文件夹
           retention-days: 7 # 报告保留 7 天
