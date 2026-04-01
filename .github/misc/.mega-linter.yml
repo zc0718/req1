@@ -13,5 +13,7 @@ C_CLANG_FORMAT:
   ENABLE: true
   CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
 
+FOLDER_INCLUDE: ["include", "src"]
+
 # 3. 输出报告配置
 REPORT_OUTPUT_FOLDER: "reports"  # 输出报告到 reports 目录
