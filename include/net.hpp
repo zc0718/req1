@@ -1,6 +1,6 @@
 // Conan::ImportStart
 #pragma once
-
+#include <iostream>
 // Conan::ImportEnd
 
 
@@ -17,3 +17,11 @@
 
 
 int predict_random_sample();
+
+
+
+int print_func_for_test() {
+  std::cout << "The test function from net.hpp in req1 project! this line is v1.0.0" << std::endl;
+  return 0;
+};
+

@@ -1,0 +1,34 @@
+# .github/workflows/lint.yml
+
+name: Code Linting
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install MegaLinter
+        run: pip install megalinter
+
+      - name: Run MegaLinter
+        run: |
+          megalinter-runner \
+            --config .github/misc/.mega-linter.yml \
+            --output-folder reports \
+            --output-format sarif
+
+      - name: Upload Lint Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lint-reports
+          path: reports/

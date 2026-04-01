@@ -1,0 +1,17 @@
+# .mega-linter.yml
+
+# 1. 只开启你需要的检查，关闭杂项以提高速度
+ENABLE: "C,CPP,CLANG_TIDY,CLANG_FORMAT,MARKDOWN,JSON,YAML"
+DISABLE: "SPELL,REPOSITORY,DOXYGEN,SPHINX"  # 关闭你已集成的文档工具检查
+
+# 2. 配置 C/C++ 专项规则
+C_CLANG_TIDY:
+  ENABLE: true
+  CONFIG_FILE: ".github/misc/.clang-tidy"  # 指定 clang-tidy 配置路径
+
+C_CLANG_FORMAT:
+  ENABLE: true
+  CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
+
+# 3. 输出报告配置
+REPORT_OUTPUT_FOLDER: "reports"  # 输出报告到 reports 目录

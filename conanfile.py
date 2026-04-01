@@ -302,6 +302,31 @@ class PackageRecipe(ConanFile):
                                                                   conan_targets[_t] if _t in conan_targets.keys()
                                                                   else _t][-1] for _ in _cpp]
 
+    # def source(self):
+    #     from conan.tools.scm import Git
+    #     from conan.tools.files import chdir, rmdir
+    #     import subprocess
+    #
+    #     print("Version:", self.version, "Source_Folder:", self.source_folder)
+    #     repo_url = 'https://github.com/zc0718/req1.git'
+    #     git = Git(self)
+    #     print("Git object:\n", git)
+    #
+    #     self.run(f'git clone https://github.com/zc0718/req1.git {str(self.source_folder)}')
+    #
+    #     with chdir(self, self.source_folder):
+    #         ...
+    #
+    #         cmd = ["git", "log", "--author=zc0718"]
+    #
+    #         import subprocess
+    #         res = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    #         lines = res.stdout.strip().split('\n')
+    #         print(*lines, seq='\n')
+    #
+    #
+    #     ...
+
     @staticmethod
     def _call_syntax_suggestion():
         _content = """

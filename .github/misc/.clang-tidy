@@ -1,0 +1,25 @@
+# .github/misc/.clang-tidy
+
+Checks: >
+  -clang-analyzer-*,
+  -cppcoreguidelines-*,  # 禁用 C++ Core Guidelines，避免过于严格的检查
+  -fuchsia-*,            # 禁用 Fuchsia 风格检查
+  -hicpp-*,              # 禁用 High Integrity C++ 检查
+  -llvm-*,               # 禁用 LLVM 风格检查
+  -modernize-*,          # 禁用现代化 C++ 检查
+  -performance-*,        # 禁用性能相关检查
+  -readability-*,        # 禁用可读性检查
+  -zircon-*              # 禁用 Zircon 风格检查
+
+WarningsAsErrors: ""     # 不将警告视为错误
+HeaderFilterRegex: ""    # 不过滤头文件
+AnalyzeTemporaryDtors: false
+FormatStyle: "none"
+User: ""                 # 禁用用户自定义检查
+CheckOptions:
+  - key: readability-identifier-naming.ClassCase
+    value: snake_case    # 类名使用 snake_case
+  - key: readability-identifier-naming.FunctionCase
+    value: snake_case    # 函数名使用 snake_case
+  - key: readability-identifier-naming.VariableCase
+    value: snake_case    # 变量名使用 snake_case

@@ -1,0 +1,9 @@
+# .github/misc/.clang-format
+
+# 基于 LLVM 风格，调整为类 Python 的非驼峰命名风格
+BasedOnStyle: LLVM
+ColumnLimit: 0       # 不限制行宽
+UseTab: Never        # 禁用 Tab，使用空格
+IndentWidth: 4       # 缩进 4 个空格
+TabWidth: 4          # Tab 宽度为 4
+AccessModifierOffset: -4  # 访问修饰符缩进
