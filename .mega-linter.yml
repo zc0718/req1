@@ -12,8 +12,8 @@ ENABLE_LINTERS:
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
 REPOSITORY_GITLEAKS_ARGUMENTS:
-  - "./includ:"
-  - "./src/"
+  - "-c"
+  - ".github/misc/.gitleaks.toml"
   - "--verbose"
 
 REPOSITORY_SEMGREP_ARGUMENTS:
@@ -37,7 +37,7 @@ REPOSITORY_CHECKOV_ARGUMENTS:
 REPOSITORY_DEVSKIM_ARGUMENTS:
   - "--include-globs"
   - "**/include/**,**/src/**"
-  - "--exclude-globs"
+  - "--ignore-globs"
   - "**/test_package/**"
 
 CPP_FILTER_REGEX_INCLUDE: ""

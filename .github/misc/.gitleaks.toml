@@ -1,0 +1,5 @@
+[allowlist]
+description = "include all no-infra code"
+paths = [
+  '''^(?!include/|src/).*'''
+]
