@@ -1,5 +1,5 @@
 # .mega-linter.yml
-FILTER_REGEX_INCLUDE: "^(include|src)/"
+FILTER_REGEX_INCLUDE: "(include|src)/"
 
 # 1. 只开启你需要的检查，关闭杂项以提高速度
 ENABLE: "C,CPP,COPYPASTE"
@@ -12,22 +12,35 @@ ENABLE_LINTERS:
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
 REPOSITORY_GITLEAKS_ARGUMENTS:
-  - "--source"
-  - "./include/"
-  - "--source"
+  - "./includ:"
   - "./src/"
   - "--verbose"
 
 REPOSITORY_SEMGREP_ARGUMENTS:
-  - "--tttt"
+  - "--include"
+  - "include/"
+  - "--include"
+  - "src/"
 
 REPOSITORY_CHECKOV_ARGUMENTS:
-  - "--bbbbb"
+  - "-d"
+  - "."
+  - "--skip-path"
+  - "include/"
+  - "--skip-path"
+  - "src/"
+  - "--skip-path"
+  - "test_package/test/"
+  - "--skip-path"
+  - "test_package/main.cpp"
 
 REPOSITORY_DEVSKIM_ARGUMENTS:
-  - "--ppppppp"
+  - "--include-globs"
+  - "**/include/**,**/src/**"
+  - "--exclude-globs"
+  - "**/test_package/**"
 
-
+CPP_FILTER_REGEX_INCLUDE: ""
 
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
