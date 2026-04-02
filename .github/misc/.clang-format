@@ -1,9 +1,29 @@
-# .github/misc/.clang-format
-
-# 基于 LLVM 风格，调整为类 Python 的非驼峰命名风格
+# Global configuration 
 BasedOnStyle: LLVM
-ColumnLimit: 0       # 不限制行宽
-UseTab: Never        # 禁用 Tab，使用空格
-IndentWidth: 4       # 缩进 4 个空格
-TabWidth: 4          # Tab 宽度为 4
-AccessModifierOffset: -4  # 访问修饰符缩进
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 120
+MaxEmptyLinesToKeep: 3
+
+# Close docstring re-format
+ReflowComments: false
+SortIncludes: false
+
+
+# CPP
+Language: Cpp
+BreakBeforeBraces: Attach
+PointerAlignment: Left
+Standard: Cpp17
+MacroDefinitionName: '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'
+
+
+# C
+Language: C
+Extensions: 'h'
+BreakBeforeBraces: Attach
+PointerAlignment: Right
+Standard: C11
+MacroDefinitionName: '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'
+

@@ -1,15 +1,14 @@
 # .mega-linter.yml
 FILTER_REGEX_INCLUDE: "(include|src)/"
 
-# 1. 只开启你需要的检查，关闭杂项以提高速度
 ENABLE: "C,CPP,COPYPASTE"
-DISABLE: "SPELL"  # 关闭你已集成的文档工具检查
+DISABLE: "SPELL"
 
 ENABLE_LINTERS:
-  - REPOSITORY_GITLEAKS       # 防止密钥泄露
-  - REPOSITORY_SEMGREP        # 代码逻辑漏洞扫描
-  - REPOSITORY_CHECKOV        # IaC (Terraform/Docker) 配置安全
-  - REPOSITORY_DEVSKIM        # 微软安全规则补充
+  - REPOSITORY_GITLEAKS
+  - REPOSITORY_SEMGREP
+  - REPOSITORY_CHECKOV
+  - REPOSITORY_DEVSKIM
 
 COPYPASTE_JSCPD_ARGUMENTS:
   - "--pattern"
@@ -46,13 +45,11 @@ REPOSITORY_DEVSKIM_ARGUMENTS:
 
 C_CLANG_TIDY:
   ENABLE: true
-  CONFIG_FILE: ".github/misc/.clang-tidy"  # 指定 clang-tidy 配置路径
+  CONFIG_FILE: ".github/misc/.clang-tidy"
 
 C_CLANG_FORMAT:
   ENABLE: true
-  CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
-
-# FILTER_REGEX_INCLUDE: "^(include|src)/"
+  CONFIG_FILE: ".github/misc/.clang-format"
 
 SARIF_REPORTER: true
 MARKDOWN_SUMMARY_REPORTER: true
