@@ -2,7 +2,7 @@
 FILTER_REGEX_INCLUDE: "(include|src)/"
 
 ENABLE: "C,CPP,COPYPASTE"
-DISABLE: "SPELL"
+DISABLE: "SPELL,CPP_CPPLINT"
 
 ENABLE_LINTERS:
   - REPOSITORY_GITLEAKS
@@ -46,8 +46,18 @@ REPOSITORY_DEVSKIM_ARGUMENTS:
 C_CLANG_TIDY:
   ENABLE: true
   CONFIG_FILE: ".github/misc/.clang-tidy"
+  FILE_EXTENSIONS: [".h", ".c"]
+
+CPP_CLANG_TIDY:
+  ENABLE: true
+  CONFIG_FILE: ".github/misc/.clang-tidy"
+  FILE_EXTENSIONS: [".hpp", ".cpp"]
 
 C_CLANG_FORMAT:
+  ENABLE: true
+  CONFIG_FILE: ".github/misc/.clang-format"
+
+CPP_CLANG_FORMAT:
   ENABLE: true
   CONFIG_FILE: ".github/misc/.clang-format"
 
