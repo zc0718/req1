@@ -12,10 +12,22 @@ ENABLE_LINTERS:
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
 REPOSITORY_GITLEAKS_ARGUMENTS:
-  - "--filesystem"
+  - "--source"
   - "./include/"
-  - "--filesystem"
+  - "--source"
   - "./src/"
+  - "--verbose"
+
+REPOSITORY_SEMGREP_ARGUMENTS:
+  - "--tttt"
+
+REPOSITORY_CHECKOV_ARGUMENTS:
+  - "--bbbbb"
+
+REPOSITORY_DEVSKIM_ARGUMENTS:
+  - "--ppppppp"
+
+
 
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
