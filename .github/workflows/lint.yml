@@ -52,8 +52,6 @@
 # More info at https://megalinter.io
 ---
 name: MegaLinter
-permissions:
-  contents: read
 
 # Trigger mega-linter at every push. Action will also be visible from Pull
 # Requests to main
