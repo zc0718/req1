@@ -11,6 +11,10 @@ ENABLE_LINTERS:
   - REPOSITORY_CHECKOV        # IaC (Terraform/Docker) 配置安全
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
+COPYPASTE_JSCPD_ARGUMENTS:
+  - "--pattern"
+  - "include/**/*,src/**/*"
+
 REPOSITORY_GITLEAKS_ARGUMENTS:
   - "-c"
   - ".github/misc/.gitleaks.toml"
@@ -40,9 +44,6 @@ REPOSITORY_DEVSKIM_ARGUMENTS:
   - "--ignore-globs"
   - "**/test_package/**"
 
-CPP_FILTER_REGEX_INCLUDE: ""
-
-# 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
   ENABLE: true
   CONFIG_FILE: ".github/misc/.clang-tidy"  # 指定 clang-tidy 配置路径
