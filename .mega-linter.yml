@@ -1,30 +1,21 @@
 # .mega-linter.yml
+FILTER_REGEX_INCLUDE: "^(include|src)/"
 
 # 1. 只开启你需要的检查，关闭杂项以提高速度
-ENABLE: "C,CPP,REPOSITORY,COPYPASTE"
+ENABLE: "C,CPP,COPYPASTE"
 DISABLE: "SPELL"  # 关闭你已集成的文档工具检查
 
 ENABLE_LINTERS:
-  - COPYPASTE_JSCPD
   - REPOSITORY_GITLEAKS       # 防止密钥泄露
   - REPOSITORY_SEMGREP        # 代码逻辑漏洞扫描
   - REPOSITORY_CHECKOV        # IaC (Terraform/Docker) 配置安全
   - REPOSITORY_DEVSKIM        # 微软安全规则补充
 
-COPYPASTE_JSCPD:
-  ARGUMENTS: --path . --include "include/**" --include "src/**"
-#
-# REPOSITORY_GITLEAKS:
-#   FILTER_REGEX_INCLUDE: "^(include/|src/)"
-#
-# REPOSITORY_SEMGREP:
-#   FILTER_REGEX_INCLUDE: "^(include/|src/)"
-#
-# REPOSITORY_CHECKOV:
-#   FILTER_REGEX_INCLUDE: "^(include/|src/)"
-#
-# REPOSITORY_DEVSKIM:
-  # FILTER_REGEX_INCLUDE: "^(include/|src/)"
+REPOSITORY_GITLEAKS_ARGUMENTS:
+  - "--filesystem"
+  - "./include/"
+  - "--filesystem"
+  - "./src/"
 
 # 2. 配置 C/C++ 专项规则
 C_CLANG_TIDY:
@@ -35,7 +26,7 @@ C_CLANG_FORMAT:
   ENABLE: true
   CONFIG_FILE: ".github/misc/.clang-format"  # 指定 clang-format 配置路径
 
-FILTER_REGEX_INCLUDE: "(include|src)/.*"
+# FILTER_REGEX_INCLUDE: "^(include|src)/"
 
 SARIF_REPORTER: true
 MARKDOWN_SUMMARY_REPORTER: true
